@@ -32,7 +32,7 @@ Participants learned to:
 ### Frontend
 - **React**
 - **Next.js (App Router)**
-- **Tailwind CSS** (for styling)
+- **CSS** (for styling)
 - **Axios** (for HTTP requests)
 
 ### Backend
