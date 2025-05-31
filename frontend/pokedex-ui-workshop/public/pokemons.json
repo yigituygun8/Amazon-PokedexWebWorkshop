@@ -1,0 +1,41 @@
+{
+    "7": {
+        "pokemonNumber": 7,
+        "attack": 48,
+        "defense": 65,
+        "devolution": "",
+        "evolution": "Wartortle",
+        "evolutionFamily": [
+            "Squirtle",
+            "Wartortle",
+            "Blastoise"
+        ],
+        "healthPoints": 44,
+        "mainImage": "https://pokemon-aub-awe-workshop.s3.eu-west-2.amazonaws.com/7/mainImage.png",
+        "pokemonName": "Squirtle",
+        "pokemonType": [
+            "Water"
+        ],
+        "speed": 43
+    },
+    "2": {
+        "pokemonNumber": 2,
+        "attack": 62,
+        "defense": 63,
+        "devolution": "Bulbasaur",
+        "evolution": "Venusaur",
+        "evolutionFamily": [
+            "Bulbasaur",
+            "Ivysaur",
+            "Venusaur"
+        ],
+        "healthPoints": 60,
+        "mainImage": "https://pokemon-aub-awe-workshop.s3.eu-west-2.amazonaws.com/2/mainImage.png",
+        "pokemonName": "Ivysaur",
+        "pokemonType": [
+            "Grass",
+            "Poison"
+        ],
+        "speed": 60
+    }
+}

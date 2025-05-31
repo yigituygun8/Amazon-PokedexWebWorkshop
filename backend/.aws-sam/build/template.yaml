@@ -1,0 +1,85 @@
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  PokemonFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.aub.workshop.pokemon.PokemonListHandlerLambda::handleRequest
+      Runtime: java11
+      CodeUri: PokemonFunction
+      MemorySize: 1024
+      Timeout: 60
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName: Pokemons
+      - DynamoDBCrudPolicy:
+          TableName: Pokemons
+      Events:
+        PokemonApi:
+          Type: Api
+          Properties:
+            Path: /pokemon
+            Method: GET
+          RestApiId:
+            Ref: PokemonApi
+          Auth:
+            ApiKeyRequired: false
+          Cors:
+            AllowMethods: '''GET,OPTIONS'''
+            AllowHeaders: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+            AllowOrigin: '''*'''
+    Metadata:
+      SamResourceId: PokemonFunction
+  PokemonGetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: PokemonGetFunction
+      Handler: com.aub.workshop.pokemon.PokemonGetHandlerLambda::handleRequest
+      Runtime: java11
+      MemorySize: 1024
+      Timeout: 60
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName: Pokemons
+      - DynamoDBCrudPolicy:
+          TableName: Pokemons
+      Events:
+        PokemonApi:
+          Type: Api
+          Properties:
+            Path: /pokemon/{id}
+            Method: GET
+          RestApiId:
+            Ref: PokemonApi
+          Cors:
+            AllowMethods: '''GET,OPTIONS'''
+            AllowHeaders: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+            AllowOrigin: '''*'''
+    Metadata:
+      SamResourceId: PokemonGetFunction
+  PokemonApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      DefinitionBody:
+        swagger: '2.0'
+        info:
+          title: Pokemon API
+          version: '1.0'
+        paths:
+          /pokemon:
+            get:
+              responses:
+                '200':
+                  description: 200 response
+              x-amazon-apigateway-integration:
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PokemonFunction.Arn}/invocations
+                httpMethod: GET
+                type: aws_proxy
+Outputs:
+  PokemonApi:
+    Description: API Gateway endpoint URL for Pokemon Function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/pokemon
+    Export:
+      Name: PokemonApiUrl
